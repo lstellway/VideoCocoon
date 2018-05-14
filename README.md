@@ -20,7 +20,9 @@ VideoCocoon is a JavaScript API wrapper for video platforms that support an iFra
 ## Installation
 
 #### NPM
->npm install video-cocoon --save
+```
+npm install video-cocoon --save
+```
 
 ## Usage
 
@@ -32,33 +34,43 @@ VideoCocoon comes with multiple files that can be loaded asynchronously:
   - YouTube
   - Vimeo
 
->&lt;script type="text/javascript" src="src/script/video-cocoon.js"&gt;&lt;/script&gt;
->&lt;script type="text/javascript" src="src/script/provider/youtube.js"&gt;&lt;/script&gt;
->&lt;script type="text/javascript" src="src/script/provider/vimeo.js"&gt;&lt;/script&gt;
+```
+<script type="text/javascript" src="src/script/video-cocoon.js"></script>
+<script type="text/javascript" src="src/script/provider/youtube.js"></script>
+<script type="text/javascript" src="src/script/provider/vimeo.js"></script>
+```
 
 Alternatively, you may include a bundled version in your project. 
 
->&lt;script type="text/javascript" src="src/script/video-cocoon-bundled.js"&gt;&lt;/script&gt;
+```
+<script type="text/javascript" src="src/script/video-cocoon-bundled.js"></script>
+```
 
 #### Create a new player
 Define the HTML object to be used as the target for the iFrame embed (The `target` option defaults to `<body/>`):
 
->&lt;div id="youtube-video-example" class="video" data-src="https://www.youtube.com/watch?v=_QqfifH3-rk"&gt;&lt;/div&gt;
+```
+<div id="youtube-video-example" class="video" data-src="https://www.youtube.com/watch?v=_QqfifH3-rk"></div>
+```
 
 Utilize the `VideoCocoon.init` method to create a new player. 
 
->&lt;script type="text/javascript"&gt;
->var player = VideoCocoon.init({
->&nbsp;&nbsp;target: document.getElementById('youtube-video-example')
->});
->&lt;/script&gt;
+```
+<script type="text/javascript">
+var player = VideoCocoon.init({
+  target: document.getElementById('youtube-video-example')
+});
+</script>
+```
 
 #### Interact with the player
 `VideoCocoon.init` will return a [player instance object](#player-object). This object can be referenced to interact with the player:
 
->&lt;script type="text/javascript&gt;
->player.play();
->&lt;/script&gt;
+```
+<script type="text/javascript">
+player.play();
+</script>
+```
 
 ## Options
 - `target` ([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)) - Default `<body/>`
