@@ -1,0 +1,564 @@
+<html>
+<head>
+<title>VideoCocoon - iFrame Video API Wrapper</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+
+<style>
+@media(min-width: 600px) {
+    h1 {font-size: 5em}
+}
+textarea {resize: none}
+.section-title {position: relative}
+.section-title a {text-decoration: none}
+.section-title .fa {display: none; font-size: 0.65em; color: #ccc;}
+.section-title:hover .fa {display: inline-block}
+.alert-dark {cursor: pointer}
+.alert-dark .alert-success {position: absolute; top: 100%; right: 0}
+.alert-dark input,
+.alert-dark textarea {outline: 0; border: 0; background: 0; color: inherit}
+.fa-clone {border: 0; position: absolute; right: 10px; top: 50%; transform: translateY(-50%)}
+</style>
+
+<script type="text/javascript" src="src/script/video-cocoon.js"></script>
+<script type="text/javascript" src="src/script/provider/youtube.js"></script>
+<script type="text/javascript" src="src/script/provider/vimeo.js"></script>
+</head>
+<body>
+
+<header class="jumbotron bg-primary text-light">
+    <div class="container py-5 text-center">
+        <h1>VideoCocoon</h1>
+        <p>&nbsp;</p>
+        <h2 class="h5">VideoCocoon is a JavaScript API wrapper for video platforms that support an iFrame API. Its purpose is to simplify development with JavaScript video APIs.</h2>
+        <p>&nbsp;</p>
+        <p>
+            <a class="text-light" href="https://github.com/loganstellway/VideoCocoon/" target="_blank">
+                <i class="fa fa-github"></i>
+                <u>GitHub</u>
+            </a>
+        </p>
+        <a href="https://github.com/loganstellway/VideoCocoon/issues/" class="btn btn-sm btn-outline-light">Submit an Issue</a>
+        <a href="https://github.com/loganstellway/VideoCocoon#fork-destination-box" class="btn btn-sm btn-outline-light">Fork on GitHub</a>
+    </div>
+</header>
+
+<section id="contents" class="py-5">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#contents" class="text-dark">
+                Contents
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <ul>
+                <li><a href="#demo"><u>Demo</u></a></li>
+                <li><a href="#installation"><u>Installation</u></a></li>
+                <li><a href="#usage"><u>Usage</u></a></li>
+                <li><a href="#options"><u>Options</u></a></li>
+                <li><a href="#methods"><u>Methods</u></a></li>
+                <li><a href="#player-object"><u>Player Object</u></a></li>
+                <li><a href="#api-reference"><u>API Reference</u></a></li>
+                <li><a href="#video-providers"><u>Video Providers</u></a></li>
+                <li><a href="#browser-support"><u>Browser Support</u></a></li>
+                <li><a href="#license"><u>License</u></a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="demo" class="py-5 bg-light border-top border-bottom">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#demo" class="text-dark">
+                Demo
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <h3><i class="fa fa-youtube-play text-danger"></i> YouTube</h3>
+            <div class="row">
+                <div class="col-12 col-md-6 py-3">
+                    <h4 class="h5">YouTube.com</h4>
+                    <div id="youtube-com" class="mb-3 embed-responsive embed-responsive-16by9 bg-light" data-src="https://www.youtube.com/watch?v=RsDGzxlNSBA"></div>
+                    <a id="ytcom-play" class="btn btn-sm btn-outline-primary">Play</a>
+                    <a id="ytcom-pause" class="btn btn-sm btn-outline-primary">Pause</a>
+                    <a id="ytcom-stop" class="btn btn-sm btn-outline-primary">Stop</a>
+                    <a id="ytcom-toggle" class="btn btn-sm btn-outline-primary">Toggle</a>
+                    <span id="ytcom-time"></span>
+                </div>
+                <div class="col-12 col-md-6 py-3">
+                    <h4 class="h5">YouTu.be</h4>
+                    <div id="youtube-be" class="mb-3 embed-responsive embed-responsive-16by9 bg-light" data-src="https://youtu.be/usTTc7BWzpM"></div>
+                    <a id="ytbe-play" class="btn btn-sm btn-outline-primary">Play</a>
+                    <a id="ytbe-pause" class="btn btn-sm btn-outline-primary">Pause</a>
+                    <a id="ytbe-stop" class="btn btn-sm btn-outline-primary">Stop</a>
+                    <a id="ytbe-toggle" class="btn btn-sm btn-outline-primary">Toggle</a>
+                    <span id="ytbe-time"></span>
+                </div>
+            </div>
+
+            <h3 class="pt-5"><i class="fa fa-vimeo text-primary"></i> Vimeo</h3>
+            <div class="row">
+                <div class="col-12 col-md-6 py-3">
+                    <h4 class="h5">Vimeo.com</h4>
+                    <div id="vimeo-com" class="mb-3 embed-responsive embed-responsive-16by9 bg-light" data-src="https://vimeo.com/87701971"></div>
+                    <a id="vim-play" class="btn btn-sm btn-outline-primary">Play</a>
+                    <a id="vim-pause" class="btn btn-sm btn-outline-primary">Pause</a>
+                    <a id="vim-stop" class="btn btn-sm btn-outline-primary">Stop</a>
+                    <a id="vim-toggle" class="btn btn-sm btn-outline-primary">Toggle</a>
+                    <span id="vim-time"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="installation" class="py-5">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#installation" class="text-dark">
+                Installation
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <h3>NPM</h3>
+            <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
+                <i class="fa fa-terminal text-secondary pr-2"></i>
+                <input class="w-100" type="text" value="npm install video-cocoon --save">
+                <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="usage" class="py-5 bg-light border-top border-bottom">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#usage" class="text-dark">
+                Usage
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <h3 class="h4 pb-3">Include JavaScript Dependencies</h3>
+            <p>VideoCocoon comes with multiple files that can be loaded asynchronously:</p>
+
+            <ul>
+                <li>VideoCocoon core</li>
+                <li>Provider Implementations
+                    <ul>
+                        <li>YouTube</li>
+                        <li>Vimeo</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
+<textarea rows="3" class="w-100">
+&lt;script type="text/javascript" src="src/script/video-cocoon.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="src/script/provider/youtube.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="src/script/provider/vimeo.js"&gt;&lt;/script&gt;
+</textarea>
+                <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
+            </div>
+
+            <p>Alternatively, you may include a bundled version in your project.</p>
+
+            <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
+<textarea rows="1" class="w-100">&lt;script type="text/javascript" src="src/script/video-cocoon-bundled.js"&gt;&lt;/script&gt;</textarea>
+                <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
+            </div>
+
+            <h3 class="h4 pt-5 pb-3">Create a new player</h3>
+
+            <p>Define the HTML object to be used as the target for the iFrame embed (The <code>target</code> option defaults to <code>&lt;body/&gt;</code>):</p>
+
+            <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
+<textarea rows="1" class="w-100">&lt;div id="youtube-video-example" class="video" data-src="https://www.youtube.com/watch?v=_QqfifH3-rk"&gt;&lt;/div&gt;</textarea>
+                <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
+            </div>
+
+            <p>Utilize the <code>VideoCocoon.init</code> method to create a new player. </p>
+
+            <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
+<textarea rows="5" class="w-100">&lt;script type="text/javascript"&gt;
+var player = VideoCocoon.init({
+&nbsp;&nbsp;target: document.getElementById('youtube-video-example')
+});
+&lt;/script&gt;</textarea>
+                <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
+            </div>
+
+            <h3 class="h4 pt-5 pb-3">Interact with the player</h3>
+
+            <p><code>VideoCocoon.init</code> will return a <a href="#player-object"><u>player instance object</u></a>. This object can be referenced to interact with the player:</p>
+
+            <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
+<textarea rows="3" class="w-100">&lt;script type="text/javascript"&gt;
+player.play();
+&lt;/script&gt;</textarea>
+                <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="options" class="py-5">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#options" class="text-dark">
+                Options
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <ul>
+                <li><code>target</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node" target="_blank"><u>Node</u></a>) - Default <code>&lt;body/&gt;</code>
+                    <ul>
+                        <li>A selector string or DOM object used to specify where the iFrame is to be embedded.</li>
+                    </ul>
+                </li>
+                <li><code>src</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a>)
+                    <ul>
+                        <li>The video source URL to be parsed for iFrame embedding.
+                            <ul>
+                                <li>The <code>src</code> option can also be implemented via a <code>data-src</code> attribute on the <code>target</code> element</li>
+                                <li>The custom for source URLs is to utilize the URL used to view the video on the provider's platform.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><code>class</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                    <ul>
+                        <li><code>frame</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a>)
+                            <ul>
+                                <li>CSS class applied to iFrame element</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><code>events</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                    <ul>
+                        <li>Player specific callback events
+                            <ul>
+                                <li><a href="https://developers.google.com/youtube/iframe_api_reference#Events" target="_blank"><u>YouTube Events</u></a></li>
+                                <li><a href="https://github.com/vimeo/player.js/#events" target="_blank"><u>Vimeo Events</u></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><code>params</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                    <ul>
+                        <li><code>api</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                            <ul>
+                                <li>Arguments passed directly to the provider's JavaScript API </li>
+                            </ul>
+                        </li>
+                        <li><code>query</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                            <ul>
+                                <li>Arguments added as query parameters to the iFrame's src URL</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="methods" class="py-5 bg-light border-top border-bottom">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#methods" class="text-dark">
+                Methods
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <p>Methods are available via the <a href="#player-object"><u>player instance object</u></a>.</p>
+
+            <ul>
+                <li><code>play</code></li>
+                <li><code>pause</code></li>
+                <li><code>stop</code></li>
+                <li><code>seek</code></li>
+                <li><code>toggle</code>
+                    <ul>
+                        <li>Toggles the play/pause player status</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="player-object" class="py-5">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#player-object" class="text-dark">
+                Player Object
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <p>A player object instance is returned when initializing a video via the <code>VideoCocoon.init</code> method. All the player instances are stored in the <code>players</code> property of the <code>VideoCocoon</code> object (<code>VideoCocoon.players</code>).</p>
+
+            <p>Refer to the <a href="#methods"><u>methods section</u></a> to see available methods on a player instance. </p>
+
+            <p>Other properties available on a player instance:</p>
+
+            <ul class="pt-3">
+                <li><code>events</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                    <ul>
+                        <li>Key / value</li>
+                    </ul>
+                </li>
+                <li><code>frame</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node" target="_blank"><u>Node</u></a>)
+                    <ul>
+                        <li>The <code>&lt;iframe/&gt</code> DOM element created for the embedded video</li>
+                    </ul>
+                </li>
+                <li><code>on</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank"><u>Function</u></a>)
+                    <ul>
+                        <li>Method used to register event callbacks on the player instance.
+                            <ul>
+                                <li><a href="https://developers.google.com/youtube/iframe_api_reference#Events" target="_blank"><u>YouTube Events</u></a></li>
+                                <li><a href="https://github.com/vimeo/player.js/#events" target="_blank"><u>Vimeo Events</u></a></li>
+                            </ul>
+                        </li>
+                        <li>Arguments
+                            <ul>
+                                <li><code>name</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a>)
+                                    <ul>
+                                        <li>Event name</li>
+                                    </ul>
+                                </li>
+                                <li><code>callback</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank"><u>Function</u></a>)
+                                    <ul>
+                                        <li>Callback function</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><code>options</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                    <ul>
+                        <li>The options applied to the player instance</li>
+                    </ul>
+                </li>
+                <li><code>player</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
+                    <ul>
+                        <li>The API instance returned from the video provider's API</li>
+                    </ul>
+                </li>
+                <li><code>src</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a>)
+                    <ul>
+                        <li>The original source URL</li>
+                    </ul>
+                </li>
+                <li><code>trigger</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank"><u>Function</u></a>)
+                    <ul>
+                        <li>Method used to trigger event callbacks</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="api-reference" class="py-5 bg-light border-top border-bottom">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#api-reference" class="text-dark">
+                API Reference
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <p>The following references were used for API implementations</p>
+
+            <ul>
+                <li><a href="https://developers.google.com/youtube/iframe_api_reference" target="_blank"><u>YouTube IFrame API Reference</u></a></li>
+                <li><a href="https://github.com/vimeo/player.js" target="_blank"><u>Vimeo Player.js GitHub</u></a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="video-providers" class="py-5">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#video-providers" class="text-dark">
+                Video Providers
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <p>Currently supported video providers include</p>
+
+            <ul class="pt-3">
+                <li>YouTube</li>
+                <li>Vimeo</li>
+            </ul>
+
+            <p>Refer to the [video provider documentation](src/script/provider) for information regarding implementing a new video provider.</p>
+        </div>
+    </div>
+</section>
+
+<section id="browser-support" class="py-5 bg-light border-top border-bottom">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#browser-support" class="text-dark">
+                Browser Support
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <ul>
+                <li>VideoCocoon
+                    <ul>
+                        <li>The newest feature used is the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind" target="_blank"><u>Function.prototype.bind()</u></a> method. Refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind#Browser_compatibility" target="_blank"><u>browser compatibility chart</u></a> provided by the Mozilla Developer documentation.</li>
+                    </ul>
+                </li>
+                <li>Providers
+                    <ul>
+                        <li><a href="https://github.com/vimeo/player.js#browser-support" target="_blank"><u>Vimeo Browser Support</u></a></li>
+                        <li><a href="https://developers.google.com/youtube/iframe_api_reference#Requirements" target="_blank"><u>YouTube Requirements</u></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="license" class="py-5">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#license" class="text-dark">
+                License
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <p>VideoCocoon is <a href="https://github.com/loganstellway/VideoCocoon/blob/master/LICENSE" target="_blank">licensed under the MIT License</a>. Go wild and make awesome things :)</p>
+        </div>
+    </div>
+</section>
+
+<footer class="py-5 bg-dark text-light text-center">
+    <div class="container">
+        <p>
+            <a href="https://github.com/loganstellway/VideoCocoon/" class="text-light" target="_blank"><i class="fa fa-github"></i> <u>VideoCocoon</u></a> Video iFrame API Wrapper. 
+        </p>
+        <a href="https://github.com/loganstellway/VideoCocoon/issues/" class="btn btn-sm btn-outline-light">Report Issues</a>
+        <a href="https://github.com/loganstellway/VideoCocoon#fork-destination-box" class="btn btn-sm btn-outline-light">Fork on GitHub</a>
+    </div>
+</footer>
+
+<script type="text/javascript">
+// Copy to clipboard
+var clone = document.querySelectorAll('.alert-dark .fa-clone');
+for (var i in clone) {
+    clone[i].onclick = function() {
+        var c = this.parentElement.childNodes;
+        for (var i in c) {
+            if (c[i].tagName && ['input','textarea'].indexOf(c[i].tagName.toLowerCase()) >= 0) {
+                c[i].select();
+                try {
+                    document.execCommand('copy');
+                    c[i].blur();
+
+                    var confirm = document.createElement('span');
+                    confirm.className = 'alert alert-success small p-2 mt-2';
+                    confirm.innerText = 'Text copied to clipboard';
+                    c[i].parentElement.appendChild(confirm);
+                    setTimeout(function() {
+                        c[i].parentElement.removeChild(confirm);
+                    }, 3000);
+                } catch (err) {}
+                return;
+            }
+        }
+    };
+}
+
+// Format time
+function formatTime(t, h, m, s) {
+    if (t) {
+        h = Math.floor(t / 3600);
+        m = Math.floor((t % 3600) / 60);
+        s = Math.floor(t % 60);
+
+        return ('0' + h).substr(-2) + ':' + ('0' + m).substr(-2) + ':' + ('0' + s).substr(-2);
+    }
+    return '00:00:00';
+}
+
+/**
+ * Demos
+ */
+
+// YouTube.com Demo
+var ytcom = VideoCocoon.init({
+    target: '#youtube-com',
+    class: {frame: 'embed-responsive-item'}
+});
+document.getElementById('ytcom-play').onclick = function() {ytcom.play();};
+document.getElementById('ytcom-pause').onclick = function() {ytcom.pause();};
+document.getElementById('ytcom-stop').onclick = function() {ytcom.stop();};
+document.getElementById('ytcom-toggle').onclick = function() {ytcom.toggle();};
+setInterval(function() {
+    if (ytcom.player && ytcom.state && ytcom.state == 'playing') {
+        document.getElementById('ytcom-time').innerHTML = formatTime(ytcom.player.getCurrentTime());
+    }
+}, 1000);
+
+// YouTu.be Demo
+var ytbe = VideoCocoon.init({
+    target: '#youtube-be',
+    class: {frame: 'embed-responsive-item'}
+});
+document.getElementById('ytbe-play').onclick = function() {ytbe.play();};
+document.getElementById('ytbe-pause').onclick = function() {ytbe.pause();};
+document.getElementById('ytbe-stop').onclick = function() {ytbe.stop();};
+document.getElementById('ytbe-toggle').onclick = function() {ytbe.toggle();};
+setInterval(function() {
+    if (ytbe.player && ytbe.state && ytbe.state == 'playing') {
+        document.getElementById('ytbe-time').innerHTML = formatTime(ytbe.player.getCurrentTime());
+    }
+}, 1000);
+
+// Vimeo Demo
+var vim = VideoCocoon.init({
+    target: '#vimeo-com',
+    class: {frame: 'embed-responsive-item'},
+    events: {
+        timeupdate: function(d) {
+            document.getElementById('vim-time').innerHTML = formatTime(d.seconds);
+        }
+    }
+});
+document.getElementById('vim-play').onclick = function() {vim.play();};
+document.getElementById('vim-pause').onclick = function() {vim.pause();};
+document.getElementById('vim-stop').onclick = function() {vim.stop();};
+document.getElementById('vim-toggle').onclick = function() {vim.toggle();};
+</script>
+
+</body>
+</html>
