@@ -11,6 +11,8 @@ window.VideoCocoon = (function(scope)
         pattern: {
             0: /vimeo\.com/
         },
+        amd: true,
+        export: 'Vimeo',
         api: 'https://player.vimeo.com/api/player.js',
         events: ['play','pause','ended','timeupdate','progress','seeked','texttrackchange','cuechange','cuepoint','volumechange','playbackratechange','bufferstart','bufferend','error','loaded'],
 
@@ -39,15 +41,15 @@ window.VideoCocoon = (function(scope)
          * @param {string}
          * @param {null}
          */
-        setPlayer: function(uid, p, v)
+        setPlayer: function(uid, p, Vimeo)
         {
+            Vimeo = window.Vimeo.Player || window.Vimeo;
             p = scope.getPlayer(uid);
-            p.player = new Vimeo.Player(scope.getFrame(uid), p.options.params.api || {});
-            v = p.player;
-            p.play = v.play.bind(v);
-            p.pause = v.pause.bind(v);
-            p.stop = v.unload.bind(v);
-            p.seek = v.setCurrentTime.bind(v);
+            p.player = new Vimeo(scope.getFrame(uid), p.options.params.api || {});
+            p.play = p.player.play.bind(p.player);
+            p.pause = p.player.pause.bind(p.player);
+            p.stop = p.player.unload.bind(p.player);
+            p.seek = p.player.setCurrentTime.bind(p.player);
             p.toggle = function() {
                 return p[p.state == 'playing' ? 'pause' : 'play']();
             };
