@@ -88,7 +88,7 @@ window.VideoCocoon = (function(scope)
 
         if (p.api) {
             callback = function() {
-                v.trigger('apiLoaded');
+                v.trigger('onApiLoaded');
                 p.setPlayer(uid);
             };
 
@@ -178,7 +178,7 @@ window.VideoCocoon = (function(scope)
     scope.embed = function(uid)
     {
         scope.getTarget(uid).appendChild(scope.getFrame(uid));
-        scope.trigger('frameEmbedded', uid);
+        scope.trigger('onFrameEmbed', uid);
         scope.getApi(uid);
     };
 
@@ -245,7 +245,7 @@ window.VideoCocoon = (function(scope)
             if (scope.providers[i].pattern[0].test(scope.getSrc(uid))) {
                 scope.getPlayer(uid).type = i;
                 scope.embed(uid);
-                scope.trigger('playerInitialized');
+                scope.trigger('onPlayerInitialized');
                 return scope.getPlayer(uid);
             }
         }
