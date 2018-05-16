@@ -3,25 +3,31 @@ VideoCocoon is a JavaScript API wrapper for video platforms that support an iFra
 
 ## Contents
 
-1. [Demo](#demo)
-2. [Installation](#installation)
-3. [Usage](#usage)
-4. [Options](#options)
-5. [Methods](#methods)
-6. [Player Object](#player-object)
-7. [API References](#api-references)
-8. [Video Providers](#video-providers)
-9. [Browser Support](#browser-support)
-10. [License](#license)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Options](#options)
+- [Methods](#methods)
+- [Events](#events)
+- [Player Object](#player-object)
+- [API References](#api-references)
+- [Video Providers](#video-providers)
+- [Browser Support](#browser-support)
+- [License](#license)
 
 ## Demo
-[View a demo](https://cdn.rawgit.com/loganstellway/VideoCocoon/master/index.html) illustrating the usage of VideoCocoon.
+[View a demo](https://cdn.rawgit.com/loganstellway/VideoCocoon/master/index.html#demo) illustrating the usage of VideoCocoon.
 
 ## Installation
 
 #### NPM
 ```
-npm install video-cocoon --save
+npm i video-cocoon --save
+```
+
+#### Yarn
+```
+yarn add video-cocoon
 ```
 
 ## Usage
@@ -64,7 +70,7 @@ var player = VideoCocoon.init({
 ```
 
 #### Interact with the player
-`VideoCocoon.init` will return a [player instance object](#player-object). This object can be referenced to interact with the player:
+`VideoCocoon.init` will return a [player object](#player-object). This object can be referenced to interact with the player:
 
 ```
 <script type="text/javascript">
@@ -83,9 +89,7 @@ player.play();
   - `frame` ([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))
     - CSS class applied to iFrame element
 - `events` ([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))
-  - Player specific callback events
-    - [YouTube Events](https://developers.google.com/youtube/iframe_api_reference#Events)
-    - [Vimeo Events](https://github.com/vimeo/player.js/#events)
+  - Object for registering callback events upon player initialization. See the [events section](#events) for available events.
 - `params` ([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))
   - `api` ([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))
     - Arguments passed directly to the provider's JavaScript API 
@@ -93,7 +97,7 @@ player.play();
     - Arguments added as query parameters to the iFrame's src URL
 
 ## Methods
-Methods are available via the [player instance object](#player-object).
+Methods are registered directly on the [player object](#player-object).
 
 - `play`
 - `pause`
@@ -101,6 +105,37 @@ Methods are available via the [player instance object](#player-object).
 - `seek`
 - `toggle`
   - Toggles the play/pause player status
+- `on(name, callback)`
+  - Method used to register event callbacks on the player instance.
+  - Arguments
+    - `name` ([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))
+      - Event name. See available [events](#events)
+    - `callback` ([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function))
+      - Callback function
+- `trigger(name)`
+  - Method used to trigger event callbacks
+  - Arguments
+    - `name` ([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))
+      - Event name. See available [events](#events)
+
+Native provider methods can be accessed from the `player` property of the [player object](#player-object):
+- [YouTube Player Functions](https://developers.google.com/youtube/iframe_api_reference#Functions)
+- [Vimeo Player Methods](https://github.com/vimeo/player.js#methods)
+
+## Events
+Callbacks are registered on a [player object](#player-object) via the `events` property. The player object is set as the scope for callback events. 
+
+VideoCocoon events:
+- `onApiLoaded`
+  - Called when the provider API associated with the player is loaded
+- `onFrameEmbed`
+  - Called when the iFrame created for the player is embedded in the DOM
+- `onPlayerInitialized`
+  - Called when the player has finished being initialized
+
+API provider native events:
+- [YouTube Events](https://developers.google.com/youtube/iframe_api_reference#Events)
+- [Vimeo Events](https://github.com/vimeo/player.js/#events)
 
 ## Player Object
 A player object instance is returned when initializing a video via the `VideoCocoon.init` method. All the player instances are stored in the `players` property of the `VideoCocoon` object (`VideoCocoon.players`). 
@@ -109,26 +144,15 @@ Refer to the [methods section](#methods) to see available methods on a player in
 
 Other properties available on a player instance:
 - `events` ([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))
-  - Key / value
+  - Object that holds all of the callback events registered on a player. 
 - `frame` ([Node](https://developer.mozilla.org/en-US/docs/Web/API/Node))
   - The `<iframe/>` DOM element created for the embedded video
-- `on` ([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function))
-  - Method used to register event callbacks on the player instance.
-    - [YouTube Events](https://developers.google.com/youtube/iframe_api_reference#Events)
-    - [Vimeo Events](https://github.com/vimeo/player.js/#events)
-  - Arguments
-    - `name` ([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))
-      - Event name
-    - `callback` ([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function))
-      - Callback function
 - `options` ([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))
   - The options applied to the player instance
 - `player` ([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))
   - The API instance returned from the video provider's API
 - `src` ([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))
   - The original source URL
-- `trigger` ([Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function))
-  - Method used to trigger event callbacks
 
 ## API References
 The following references were used for API implementations

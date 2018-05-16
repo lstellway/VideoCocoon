@@ -59,6 +59,7 @@ textarea {resize: none}
                 <li><a href="#usage"><u>Usage</u></a></li>
                 <li><a href="#options"><u>Options</u></a></li>
                 <li><a href="#methods"><u>Methods</u></a></li>
+                <li><a href="#events"><u>Events</u></a></li>
                 <li><a href="#player-object"><u>Player Object</u></a></li>
                 <li><a href="#api-reference"><u>API Reference</u></a></li>
                 <li><a href="#video-providers"><u>Video Providers</u></a></li>
@@ -130,7 +131,14 @@ textarea {resize: none}
             <h3>NPM</h3>
             <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
                 <i class="fa fa-terminal text-secondary pr-2"></i>
-                <input class="w-100" type="text" value="npm install video-cocoon --save">
+                <input class="w-100" type="text" value="npm i video-cocoon --save">
+                <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
+            </div>
+
+            <h3 class="pt-5">Yarn</h3>
+            <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
+                <i class="fa fa-terminal text-secondary pr-2"></i>
+                <input class="w-100" type="text" value="yarn add video-cocoon">
                 <button class="btn btn-sm btn-outline-light fa fa-clone" title="Copy text to clipboard"></button>
             </div>
         </div>
@@ -198,7 +206,7 @@ var player = VideoCocoon.init({
 
             <h3 class="h4 pt-5 pb-3">Interact with the player</h3>
 
-            <p><code>VideoCocoon.init</code> will return a <a href="#player-object"><u>player instance object</u></a>. This object can be referenced to interact with the player:</p>
+            <p><code>VideoCocoon.init</code> will return a <a href="#player-object"><u>player object</u></a>. This object can be referenced to interact with the player:</p>
 
             <div class="alert alert-dark bg-dark text-light d-flex align-items-center">
 <textarea rows="3" class="w-100">&lt;script type="text/javascript"&gt;
@@ -247,12 +255,7 @@ player.play();
                 </li>
                 <li><code>events</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
                     <ul>
-                        <li>Player specific callback events
-                            <ul>
-                                <li><a href="https://developers.google.com/youtube/iframe_api_reference#Events" target="_blank"><u>YouTube Events</u></a></li>
-                                <li><a href="https://github.com/vimeo/player.js/#events" target="_blank"><u>Vimeo Events</u></a></li>
-                            </ul>
-                        </li>
+                        <li>Object for registering callback events upon player initialization. See the <a href="#events"><u>events section</u></a> for available events.</li>
                     </ul>
                 </li>
                 <li><code>params</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
@@ -284,7 +287,7 @@ player.play();
         </h2>
 
         <div class="py-5">
-            <p>Methods are available via the <a href="#player-object"><u>player instance object</u></a>.</p>
+            <p>Methods are registered directly on the <a href="#player-object"><u>player object</u></a>.</p>
 
             <ul>
                 <li><code>play</code></li>
@@ -296,12 +299,99 @@ player.play();
                         <li>Toggles the play/pause player status</li>
                     </ul>
                 </li>
+                <li><code>on(name, callback)</code>
+                    <ul>
+                        <li>Method used to register event callbacks on the player instance.
+                            <ul>
+                                <li><a href="https://developers.google.com/youtube/iframe_api_reference#Events" target="_blank"><u>YouTube Events</u></a></li>
+                                <li><a href="https://github.com/vimeo/player.js/#events" target="_blank"><u>Vimeo Events</u></a></li>
+                            </ul>
+                        </li>
+                        <li>Arguments
+                            <ul>
+                                <li><code>name</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a>)
+                                    <ul>
+                                        <li>Event name. See available <a href="#events"><u>events</u></a></li>
+                                    </ul>
+                                </li>
+                                <li><code>callback</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank"><u>Function</u></a>)
+                                    <ul>
+                                        <li>Callback function</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><code>trigger(name)</code>
+                    <ul>
+                        <li>Method used to trigger event callbacks</li>
+                        <li>Arguments
+                            <ul>
+                                <li><code>name</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a>)
+                                    <ul>
+                                        <li>Event name. See available <a href="#events"><u>events</u></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>Native provider methods can be accessed from the <code>player</code> property of the <a href="#player-object"><u>player object</u></a>:</p>
+
+            <ul>
+                <li><a href="https://developers.google.com/youtube/iframe_api_reference#Functions" target="_blank"><u>YouTube Player Functions</u></a></li>
+                <li><a href="https://github.com/vimeo/player.js#methods" target="_blank"><u>Vimeo Player Methods</u></a></li>
             </ul>
         </div>
     </div>
 </section>
 
-<section id="player-object" class="py-5">
+<section id="events" class="py-5">
+    <div class="container">
+        <h2 class="section-title">
+            <a href="#events" class="text-dark">
+                Events
+                <i class="fa fa-link"></i>
+            </a>
+        </h2>
+
+        <div class="py-5">
+            <p>Callbacks are registered on a player object via the events property. The player object is set as the scope for callback events.</p>
+
+            <p>VideoCocoon events:</p>
+
+            <ul>
+                <li><code>onApiLoaded</code>
+                    <ul>
+                        <li>Called when the provider API associated with the player is loaded</li>
+                    </ul>
+                </li>
+                <li><code>onFrameEmbed</code>
+                    <ul>
+                        <li>Called when the iFrame created for the player is embedded in the DOM</li>
+                    </ul>
+                </li>
+                <li><code>onPlayerInitialized</code>
+                    <ul>
+                        <li>Called when the player has finished being initialized</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>API provider native events:</p>
+
+            <ul>
+                <li><a href="https://developers.google.com/youtube/iframe_api_reference#Events" target="_blank"><u>YouTube Events</u></a></li>
+                <li><a href="https://github.com/vimeo/player.js/#events" target="_blank"><u>Vimeo Events</u></a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="player-object" class="py-5 bg-light border-top border-bottom">
     <div class="container">
         <h2 class="section-title">
             <a href="#player-object" class="text-dark">
@@ -328,30 +418,6 @@ player.play();
                         <li>The <code>&lt;iframe/&gt</code> DOM element created for the embedded video</li>
                     </ul>
                 </li>
-                <li><code>on</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank"><u>Function</u></a>)
-                    <ul>
-                        <li>Method used to register event callbacks on the player instance.
-                            <ul>
-                                <li><a href="https://developers.google.com/youtube/iframe_api_reference#Events" target="_blank"><u>YouTube Events</u></a></li>
-                                <li><a href="https://github.com/vimeo/player.js/#events" target="_blank"><u>Vimeo Events</u></a></li>
-                            </ul>
-                        </li>
-                        <li>Arguments
-                            <ul>
-                                <li><code>name</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank"><u>String</u></a>)
-                                    <ul>
-                                        <li>Event name</li>
-                                    </ul>
-                                </li>
-                                <li><code>callback</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank"><u>Function</u></a>)
-                                    <ul>
-                                        <li>Callback function</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
                 <li><code>options</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank"><u>Object</u></a>)
                     <ul>
                         <li>The options applied to the player instance</li>
@@ -367,17 +433,12 @@ player.play();
                         <li>The original source URL</li>
                     </ul>
                 </li>
-                <li><code>trigger</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank"><u>Function</u></a>)
-                    <ul>
-                        <li>Method used to trigger event callbacks</li>
-                    </ul>
-                </li>
             </ul>
         </div>
     </div>
 </section>
 
-<section id="api-reference" class="py-5 bg-light border-top border-bottom">
+<section id="api-reference" class="py-5">
     <div class="container">
         <h2 class="section-title">
             <a href="#api-reference" class="text-dark">
@@ -397,7 +458,7 @@ player.play();
     </div>
 </section>
 
-<section id="video-providers" class="py-5">
+<section id="video-providers" class="py-5 bg-light border-top border-bottom">
     <div class="container">
         <h2 class="section-title">
             <a href="#video-providers" class="text-dark">
@@ -419,7 +480,7 @@ player.play();
     </div>
 </section>
 
-<section id="browser-support" class="py-5 bg-light border-top border-bottom">
+<section id="browser-support" class="py-5">
     <div class="container">
         <h2 class="section-title">
             <a href="#browser-support" class="text-dark">
@@ -446,7 +507,7 @@ player.play();
     </div>
 </section>
 
-<section id="license" class="py-5">
+<section id="license" class="py-5 bg-light border-top border-bottom">
     <div class="container">
         <h2 class="section-title">
             <a href="#license" class="text-dark">
