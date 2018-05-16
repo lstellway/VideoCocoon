@@ -81,22 +81,31 @@ window.VideoCocoon = (function(scope)
      * @param  {null} t
      * @param  {null} c
      */
-    scope.getApi = function(uid, a, t, js, c)
+    scope.getApi = function(uid, v, p, js, callback)
     {
-        t = scope.getPlayer(uid).type;
-        a = scope.providers[t].api;
-        if (a) {
-            c = function() {
-                scope.providers[scope.getPlayer(uid).type].setPlayer(uid);
+        v = scope.getPlayer(uid);
+        p = scope.providers[v.type];
+
+        if (p.api) {
+            callback = function() {
+                v.trigger('apiLoaded');
+                p.setPlayer(uid);
             };
 
-            if (document.getElementById(t + 'Api')) return c();
+            if (typeof define === 'function' && define.amd && p.amd && p.export) {
+                require([p.api], function(api) {
+                    window[p.export] = api;
+                    callback();
+                });
+            } else {
+                if (document.getElementById(v.type + 'VCApi')) return callback();
 
-            js = document.createElement('script');
-            js.id = t + 'Api';
-            js.onload = c;
-            js.src = a;
-            document.getElementsByTagName('script')[0].parentNode.appendChild(js);
+                js = document.createElement('script');
+                js.id = v.type + 'VCApi';
+                js.onload = callback;
+                js.src = p.api;
+                document.getElementsByTagName('script')[0].parentNode.appendChild(js);
+            }
         }
     };
 
@@ -158,6 +167,7 @@ window.VideoCocoon = (function(scope)
 
             scope.getPlayer(uid).frame = f;
         }
+
         return scope.getPlayer(uid).frame || false;
     };
 
@@ -168,6 +178,7 @@ window.VideoCocoon = (function(scope)
     scope.embed = function(uid)
     {
         scope.getTarget(uid).appendChild(scope.getFrame(uid));
+        scope.trigger('frameEmbedded', uid);
         scope.getApi(uid);
     };
 
@@ -188,9 +199,8 @@ window.VideoCocoon = (function(scope)
      */
     scope.trigger = function(name, uid, p) {
         p = scope.getPlayer(uid || this.uid);
-        if (p.events[name]) {
-            for (var i in p.events[name]) p.events[name][i]();
-        }
+        p.events = p.events || {};
+        for (var i in p.events[name] || []) p.events[name][i]();
     };
 
     /**
@@ -235,6 +245,7 @@ window.VideoCocoon = (function(scope)
             if (scope.providers[i].pattern[0].test(scope.getSrc(uid))) {
                 scope.getPlayer(uid).type = i;
                 scope.embed(uid);
+                scope.trigger('playerInitialized');
                 return scope.getPlayer(uid);
             }
         }
