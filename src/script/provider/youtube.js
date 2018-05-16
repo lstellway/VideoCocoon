@@ -7,7 +7,18 @@
 window.VideoCocoon = (function(scope)
 {
     scope.providers = scope.providers || {};
+
+    /**
+     * YouTube iFrame API Callback
+     */
+    window.onYouTubeIframeAPIReady = function(p) {
+        p = scope.providers.youtube;
+        p.ready = 1;
+        for (var i in p.queue) p.setPlayer(p.queue[i]);
+    };
+
     scope.providers.youtube = {
+        ready: 0,
         pattern: {
             0: /youtu(\.be|be\.com)/,
             'be': /youtu\.be/,
@@ -15,6 +26,7 @@ window.VideoCocoon = (function(scope)
         },
         api: 'https://www.youtube.com/iframe_api',
         events: ['onReady','onStateChange','onPlaybackQualityChange','onPlaybackRateChange','onError','onApiChange'],
+        queue: [],
 
         /**
          * Get video ID
@@ -57,9 +69,7 @@ window.VideoCocoon = (function(scope)
         setPlayer: function(uid, s)
         {
             s = this;
-            if (typeof YT === 'undefined' || !YT.Player || YT.Player.constructor !== Function) return setTimeout(function() {
-                return s.setPlayer(uid);
-            }, 500);
+            if (!s.ready) return s.queue.push(uid);
 
             scope.getPlayer(uid).player = new YT.Player(uid, {
                 playerVars: scope.getPlayer(uid).options.params.api || {},
