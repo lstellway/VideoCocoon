@@ -200,7 +200,7 @@ window.VideoCocoon = (function(scope)
     scope.trigger = function(name, uid, p) {
         p = scope.getPlayer(uid || this.uid);
         p.events = p.events || {};
-        for (var i in p.events[name] || []) p.events[name][i]();
+        for (var i in p.events[name] || []) p.events[name][i].call(p);
     };
 
     /**
